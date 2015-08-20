@@ -1,0 +1,21 @@
+{
+  "name": "fos1/sf-s-q-l-tools-plugin",
+  "type": "symfony1-plugin",
+  "description": "Doctrine SQL Tools Plugin for Symfony1. Task to execute SQL files with triggers, procedures and events in order. Compatible with any kind of database engines.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ilya Sabelnikov",
+      "email": "fruit.dev@gmail.com",
+      "role": "Creator"
+    },
+    {
+      "name": "Emanuele Panzeri",
+      "email": "thepanz@gmail.com",
+      "role": "Contributor"
+    }
+  ],
+  "require": {
+    "composer/installers": "~1.0"
+  }
+}
