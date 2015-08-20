@@ -1,29 +1,39 @@
-# sfSQLToolsPlugin #
+# sfSQLToolsPlugin
 
-The `sfSQLToolsPlugin` is a symfony plugin that provides easy way to execute database specific features like stored procedures, triggers, events and any other ``SQL`` commands.
+The `sfSQLToolsPlugin` is a symfony1 plugin that provides easy way to execute
+database specific features like stored procedures, triggers, events and any
+other `SQL` commands.
 
-## Contents ##
+## Contents
 
-It gives you one task to execute ``SQL`` files with additional options.
+It gives you one task to execute `SQL` files with additional options.
 
-## Repository ##
+## Installation
 
- * plugin repository @ github [http://github.com/fruit/sfSQLToolsPlugin](http://github.com/fruit/sfSQLToolsPlugin "Repository")
- * plugin tickets @ github [http://github.com/fruit/sfSQLToolsPlugin/issues](http://github.com/fruit/sfSQLToolsPlugin/issues "Issues")
+* Download the plugin
 
-## Installation ##
+Add the plugin your `composer.json` requirements:
 
-   * Install the plugin
+```
+  "require": {
+    ...
+    "fos1/sf-s-q-l-tools-plugin": "1.0.*",
+    ...
+```
+        
+* Install the plugin: edit your ``ProjectConfiguration.class.php`` file
+```
+  $this->enablePlugins(array('sSQLToolsPlugin');
+```
 
-        $ ./symfony plugin:install sfSQLToolsPlugin
+* Clear you cache
+`symfony cc`
 
-   * Clear you cache
+## Usage
 
-        $ ./symfony cc
-
-## Usage ##
-
-    $ ./symfony sql:execute [--application[="..."]] [--env[="..."]] [--dir[="..."]] [--dir-depth[="..."]] [--file[="..."]] [--exclude[="..."]] [--delimiter[="..."]]
+```
+symfony sql:execute [--application[="..."]] [--env[="..."]] [--dir[="..."]] [--dir-depth[="..."]] [--file[="..."]] [--exclude[="..."]] [--delimiter[="..."]]
+```
 
 ### Options:
  * ``--application``  The application name (default: 1)
@@ -34,7 +44,7 @@ It gives you one task to execute ``SQL`` files with additional options.
  * ``--exclude``      Exclude file pattern or file list separated by commas
  * ``--delimiter``    Query delimiter (default: ~)
 
-## Description: ###
+## Description:
 
 The ``sql:execute`` task reads ``*.sql`` files in search directory and then runs them in order
 
@@ -82,10 +92,11 @@ The ``sql:execute`` task reads ``*.sql`` files in search directory and then runs
 
         $ ./symfony sql:execute --dir-depth=*
 
-## Example ##
+## Example #
 
-### This is your file "00-procedures.sql" content (MySQL) ###
+### This is your file "00-procedures.sql" content (MySQL)
 
+```sql
         CREATE PROCEDURE `simpleproc`(OUT param1 INT)
         BEGIN
             SELECT COUNT(*) INTO param1 FROM t;
@@ -94,26 +105,24 @@ The ``sql:execute`` task reads ``*.sql`` files in search directory and then runs
         CREATE FUNCTION `hello`(s CHAR(20)) RETURNS CHAR(50)  RETURN CONCAT('Hello, ',s,'!');
         ~
         CREATE PROCEDURE molo() SELECT 'Molo';
+```
+* Now, setup your DBMS conntecion in config/databases.yml (if you haven't done this yet)
+* And execute this procedures in development environment:
+`symfony sql:execute --env=dev --file=data/sql/00-procedures.sql`
+* After you run this task, you should get the following output:
 
-   * Now, setup your DBMS conntecion in config/databases.yml (if you haven't done this yet)
+```
+>> sql:execute start
+>> sql:execute [00-procedures.sql] CREATE PROC...OUNT(*) INTO param1 FROM t; END
+>> sql:execute [00-procedures.sql] CREATE FUNC...RETURN CONCAT('Hello, ',s,'!');
+>> sql:execute [00-procedures.sql] CREATE PROCEDURE molo() SELECT 'Molo';
+>> sql:execute end
+```
 
-   * And execute this procedures in development environment:
+## Unit test
 
-        $ ./symfony sql:execute --env=dev --file=data/sql/00-procedures.sql
-
-   * After you run this task, you should recieve output:
-
-        [sql]
-        >> sql:execute start
-        >> sql:execute [00-procedures.sql] CREATE PROC...OUNT(*) INTO param1 FROM t; END
-        >> sql:execute [00-procedures.sql] CREATE FUNC...RETURN CONCAT('Hello, ',s,'!');
-        >> sql:execute [00-procedures.sql] CREATE PROCEDURE molo() SELECT 'Molo';
-        >> sql:execute end
-
-## Unit test ##
-
- * Unit tests (14 of 14) successfully completed.
- * Tested with:
-    * ``MySQL 5.0.84``
-    * ``MySQL 5.1.40``
-    * ``PostgreSQL 8.3.8``
+* Unit tests (14 of 14) successfully completed.
+* Tested with:
+  * ``MySQL 5.0.84``
+  * ``MySQL 5.1.40``
+  * ``PostgreSQL 8.3.8``
